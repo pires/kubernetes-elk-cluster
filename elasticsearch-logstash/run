@@ -1,0 +1,7 @@
+#!/bin/bash
+
+/elasticsearch/bin/elasticsearch &
+
+sleeÂp 1
+
+/logstash/bin/logstash -f /conf/logstash.conf &

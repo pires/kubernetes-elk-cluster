@@ -20,4 +20,8 @@ ADD logstash.conf /logstash/conf/logstash.conf
 ADD certs/logstash-forwarder.crt /logstash/certs/logstash-forwarder.crt
 ADD certs/logstash-forwarder.key /logstash/certs/logstash-forwarder.key
 
-CMD ["/logstash/bin/logstash", "-f", "/conf/logstash.conf"]
+# runnable script
+ADD run /
+RUN chmod +x /run
+
+CMD ["/run"]
