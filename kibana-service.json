@@ -1,0 +1,11 @@
+{
+  "id": "kibana",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 80,
+  "containerPort": 80,
+  "selector": {
+    "component": "elasticsearch",
+    "role": "kibana"
+  }
+}
