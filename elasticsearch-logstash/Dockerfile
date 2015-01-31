@@ -29,3 +29,5 @@ ADD certs/logstash-forwarder.key /logstash/certs/logstash-forwarder.key
 # runnable scripts
 ADD run-elasticsearch-lb.sh /etc/service/elasticsearch/run
 ADD run-logstash.sh /etc/service/logstash/run
+
+CMD ["/usr/bin/runsvdir", "-P", "/etc/service"]
