@@ -1,5 +1,5 @@
 # kubernetes-elk-cluster
-ELK (Elasticsearch + Logstash + Kibana) cluster on top of Kubernetes made easy.
+**ELK** (**Elasticsearch** + **Logstash** + **Kibana**) cluster on top of **Kubernetes** made easy.
 
 Here you will find:
 * Kubernetes pod descriptor that joins Elasticsearch load-balancer container with Logstash container (for ```localhost``` communication)
@@ -7,7 +7,7 @@ Here you will find:
 * Kubernetes service descriptor that publishes Logstash listening for Lumberjack protocol
 * Kubernetes service descriptor that publishes Kibana webpage
 
-*Attention:* 
+**Attention:** 
 * If you're looking for details on how ```pires/elasticsearch``` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
 * If you're looking for details on how ```pires/logstash``` image is built, take a look at [my Logstash repository](https://github.com/pires/logstash).
 * If you're looking for details on how ```pires/kibana``` images are built, take a look at [my Kibana repository](https://github.com/pires/kibana).
