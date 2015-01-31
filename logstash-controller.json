@@ -1,29 +1,29 @@
 {
-  "id":"elasticsearch-logstash",
+  "id":"logstash",
   "kind":"ReplicationController",
   "apiVersion":"v1beta1",
   "desiredState":{
     "replicas":1,
     "replicaSelector":{
       "component":"elasticsearch",
-      "role":"elasticsearch-logstash"
+      "role":"logstash"
     },
     "podTemplate":{
       "desiredState":{
         "manifest":{
           "version":"v1beta1",
-          "id":"elasticsearch-logstash",
+          "id":"logstash",
           "containers":[
             {
-              "name":"elasticsearch-logstash",
-              "image":"pires/kubernetes-elk-cluster:el-latest",
+              "name":"elasticsearch",
+              "image":"pires/elasticsearch:lb",
               "ports":[
                 {
-                  "name":"lumberjack",
-                  "containerPort":5043
+                  "name":"http",
+                  "containerPort":9200
                 },
                 {
-                  "name":"es-transport",
+                  "name":"transport",
                   "containerPort":9300
                 }
               ],
@@ -31,6 +31,16 @@
                 {
                   "name":"storage",
                   "mountPath":"/data"
+                }
+              ]
+            },
+            {
+              "name":"logstash",
+              "image":"pires/logstash",
+              "ports":[
+                {
+                  "name":"lumberjack",
+                  "containerPort":5043
                 }
               ]
             }
@@ -49,7 +59,7 @@
       },
       "labels":{
         "component":"elasticsearch",
-        "role":"elasticsearch-logstash"
+        "role":"logstash"
       }
     }
   }

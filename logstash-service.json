@@ -1,11 +1,11 @@
 {
-  "id": "elasticsearch-logstash",
+  "id": "logstash",
   "kind": "Service",
   "apiVersion": "v1beta1",
   "port": 5043,
   "containerPort": 5043,
   "selector": {
     "component": "elasticsearch",
-    "role": "elasticsearch-logstash"
+    "role": "logstash"
   }
 }
