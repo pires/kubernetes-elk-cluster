@@ -6,7 +6,13 @@ MAINTAINER pjpires@gmail.com
 # Export Lumberjack and ES Transport
 EXPOSE 5043 9300
 
-RUN \
+# Installrunit
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list && \
+  apt-get update && \
+  apt-get upgrade -y && \
+  apt-get install -y runit && \
+  apt-get autoremove -y && \
+  apt-get autoclean &&  \
   cd / && \
   curl -O https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz && \
   tar zxf logstash-1.4.2.tar.gz && \
@@ -20,8 +26,6 @@ ADD logstash.conf /logstash/conf/logstash.conf
 ADD certs/logstash-forwarder.crt /logstash/certs/logstash-forwarder.crt
 ADD certs/logstash-forwarder.key /logstash/certs/logstash-forwarder.key
 
-# runnable script
-ADD run /
-RUN chmod +x /run
-
-CMD ["/run"]
+# runnable scripts
+ADD run-elasticsearch-lb.sh /etc/service/elasticsearch/run
+ADD run-logstash.sh /etc/service/logstash/run

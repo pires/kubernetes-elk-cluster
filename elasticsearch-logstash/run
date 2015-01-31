@@ -1,7 +1,0 @@
-#!/bin/bash
-echo -n "Running Elasticsearch.."
-exec /elasticsearch/bin/elasticsearch
-echo -n "Sleeping for 10s.."
-sleep 10
-echo -n "Running Logstash.."
-exec /logstash/bin/logstash -f /logstash/conf/logstash.conf
