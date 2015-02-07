@@ -10,7 +10,7 @@ Here you will find:
 **Attention:** 
 * If you're looking for details on how ```pires/elasticsearch``` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
 * If you're looking for details on how ```pires/logstash``` image is built, take a look at [my Logstash repository](https://github.com/pires/logstash).
-* If you're looking for details on how ```pires/kibana``` images are built, take a look at [my Kibana repository](https://github.com/pires/kibana).
+* If you're looking for details on how ```pires/kibana``` image is built, take a look at [my Kibana repository](https://github.com/pires/kibana).
 
 ## Pre-requisites
 
