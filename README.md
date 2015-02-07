@@ -11,6 +11,7 @@ Here you will find:
 * If you're looking for details on how ```pires/elasticsearch``` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
 * If you're looking for details on how ```pires/logstash``` image is built, take a look at [my Logstash repository](https://github.com/pires/logstash).
 * If you're looking for details on how ```pires/kibana``` image is built, take a look at [my Kibana repository](https://github.com/pires/kibana).
+* If you're looking for details on how ```pires/logstash-forwarder``` image is built, take a look at [my logstash-forwarder repository](https://github.com/pires/logstash-forwarder).
 
 ## Pre-requisites
 
@@ -23,6 +24,7 @@ Here you will find:
 ```
 kubectl create -f logstash-service.json
 kubectl create -f logstash-controller.json
+kubectl create -f logstash-forwarder-controller.json
 kubectl create -f kibana-service.json
 kubectl create -f kibana-controller.json
 ```
@@ -46,6 +48,7 @@ a96d1b26-a95d-11e4-9459-0800272d7481   10.244.92.6         elasticsearch        
                                                            logstash               pires/logstash
 fa58e4c5-a961-11e4-9459-0800272d7481   10.244.26.2         elasticsearch          pires/elasticsearch:lb       172.17.8.104/       component=elasticsearch,role=kibana          Running
                                                            kibana                 pires/kibana
+3e7aa0fb-aee1-11e4-a06e-0800272d7481   10.244.102.5        logstash-forwarder     pires/logstash-forwarder     172.17.8.102/       component=logstash-forwarder                 Running
 ```
 
 As you can assert, the cluster is up and running. Easy, wasn't it?
