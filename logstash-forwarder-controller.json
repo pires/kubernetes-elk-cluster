@@ -1,0 +1,28 @@
+{
+  "id":"logstash-forwarder",
+  "kind":"ReplicationController",
+  "apiVersion":"v1beta1",
+  "desiredState":{
+    "replicas":1,
+    "replicaSelector":{
+      "component":"logstash-forwarder"
+    },
+    "podTemplate":{
+      "desiredState":{
+        "manifest":{
+          "version":"v1beta1",
+          "id":"logstash-forwarder",
+          "containers":[
+            {
+              "name":"logstash-forwarder",
+              "image":"pires/logstash-forwarder"
+            }
+          ]
+        }
+      },
+      "labels":{
+        "component":"logstash-forwarder"
+      }
+    }
+  }
+}
