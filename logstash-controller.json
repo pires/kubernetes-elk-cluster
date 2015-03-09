@@ -19,10 +19,6 @@
               "image":"pires/elasticsearch:lb",
               "ports":[
                 {
-                  "name":"http",
-                  "containerPort":9200
-                },
-                {
                   "name":"transport",
                   "containerPort":9300
                 }
@@ -36,11 +32,17 @@
             },
             {
               "name":"logstash",
-              "image":"pires/logstash",
+              "image":"pires/docker-logstash",
               "ports":[
                 {
                   "name":"lumberjack",
                   "containerPort":5043
+                }
+              ],
+              "volumeMounts":[
+                {
+                  "name":"certs",
+                  "mountPath":"/certs"
                 }
               ]
             }
@@ -49,8 +51,14 @@
             {
               "name":"storage",
               "source":{
-                "emptyDir":{
-
+                "emptyDir":{ }
+              }
+            },
+            {
+              "name":"certs",
+              "source":{
+                "hostDir":{
+                  "path": "/path/to/certificates"
                 }
               }
             }
