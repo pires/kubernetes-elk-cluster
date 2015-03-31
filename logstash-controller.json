@@ -42,7 +42,7 @@
               "volumeMounts":[
                 {
                   "name":"certs",
-                  "mountPath":"/certs"
+                  "mountPath":"/logstash/certs"
                 }
               ]
             }
