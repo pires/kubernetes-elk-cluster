@@ -36,11 +36,11 @@
             },
             {
               "name":"kibana",
-              "image":"pires/kibana",
+              "image":"bobrik/kibana4",
               "ports":[
                 {
                   "name":"kibana",
-                  "containerPort":80
+                  "containerPort":5601
                 }
               ]
             }
