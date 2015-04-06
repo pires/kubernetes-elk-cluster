@@ -15,11 +15,15 @@
           "containers":[
             {
               "name":"logstash-forwarder",
-              "image":"pires/logstash-forwarder",
+              "image":"pires/docker-logstash-forwarder",
               "volumeMounts":[
                 {
+                  "name":"config",
+                  "mountPath":"/logstash-forwarder/config"
+                },
+                {
                   "name":"certs",
-                  "mountPath":"/certs"
+                  "mountPath":"/logstash-forwarder/certs"
                 }
               ]
             }

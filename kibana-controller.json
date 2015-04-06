@@ -26,12 +26,6 @@
                   "name":"transport",
                   "containerPort":9300
                 }
-              ],
-              "volumeMounts":[
-                {
-                  "name":"storage",
-                  "mountPath":"/data"
-                }
               ]
             },
             {
@@ -43,16 +37,6 @@
                   "containerPort":5601
                 }
               ]
-            }
-          ],
-          "volumes":[
-            {
-              "name":"storage",
-              "source":{
-                "emptyDir":{
-
-                }
-              }
             }
           ]
         }

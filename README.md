@@ -10,12 +10,11 @@ Here you will find:
 **Attention:** 
 * If you're looking for details on how ```pires/elasticsearch``` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
 * If you're looking for details on how ```pires/docker-logstash``` image is built, take a look at [my Logstash repository](https://github.com/pires/docker-logstash).
-* If you're looking for details on how ```pires/kibana``` image is built, take a look at [my Kibana repository](https://github.com/pires/kibana).
-* If you're looking for details on how ```pires/logstash-forwarder``` image is built, take a look at [my logstash-forwarder repository](https://github.com/pires/logstash-forwarder).
+* If you're looking for details on how ```pires/docker-logstash-forwarder``` image is built, take a look at [my docker-logstash-forwarder repository](https://github.com/pires/docker-logstash-forwarder).
 
 ## Pre-requisites
 
-* Kubernetes cluster (tested with 3 nodes [Vagrant + CoreOS](https://github.com/pires/kubernetes-vagrant-coreos-cluster))
+* Kubernetes cluster (tested with 2 minions [Vagrant + CoreOS](https://github.com/pires/kubernetes-vagrant-coreos-cluster))
 * ```kubectl``` configured to access your cluster master API Server
 * Elasticsearch cluster deployed - you can skip deploying ```load-balancers```provisioning, since those will be paired with Logstash and Kibana containers, and automatically join the cluster you've assembled with [my Elasticsearch cluster instructions](https://github.com/pires/kubernetes-elasticsearch-cluster)).
 
@@ -25,10 +24,9 @@ Here you will find:
 
 Be sure to provide valid SSL certificates for ```logstash``` and ```logstash-forwarder```, by changing the ```hostDir``` path to whatever folder you will be storing the certificates.
 
-Changes must be performed in ```logstash-controller.json``` and ```logstash-forwarder-controller.json```. Look for
+Changes must be performed in ```logstash-controller.json``` and ```logstash-forwarder-controller.json```, **at least** for the `certs` volume. Look for
 ```json
 "volumes":[
-...
 {
   "name":"certs",
   "source":{
@@ -37,9 +35,35 @@ Changes must be performed in ```logstash-controller.json``` and ```logstash-forw
     }
   }
 }
-...
 ]
 ```
+
+If you want to change `logstash` and `logstash-forwarder` configuration, be sure to add to each `replication-controller`
+```json
+"volumes":[
+{
+  "name":"config",
+  "source":{
+    "hostDir":{
+      "path": "/path/to/config"
+    }
+  }
+}
+]
+
+(...)
+
+{
+  "name":"config",
+  "source":{
+    "hostDir":{
+      "path": "/path/to/config"
+    }
+  }
+}
+```
+
+and change accordingly.
 
 ```
 kubectl create -f logstash-service.json
@@ -67,8 +91,8 @@ c7c6e8ce-a94e-11e4-9459-0800272d7481   10.244.95.3         elasticsearch-data   
 a96d1b26-a95d-11e4-9459-0800272d7481   10.244.92.6         elasticsearch          pires/elasticsearch:lb       172.17.8.103/       component=elasticsearch,role=logstash        Running
                                                            logstash               pires/docker-logstash
 fa58e4c5-a961-11e4-9459-0800272d7481   10.244.26.2         elasticsearch          pires/elasticsearch:lb       172.17.8.104/       component=elasticsearch,role=kibana          Running
-                                                           kibana                 pires/kibana
-3e7aa0fb-aee1-11e4-a06e-0800272d7481   10.244.102.5        logstash-forwarder     pires/logstash-forwarder     172.17.8.102/       component=logstash-forwarder                 Running
+                                                           kibana                 bobrik/kibana4
+3e7aa0fb-aee1-11e4-a06e-0800272d7481   10.244.102.5        logstash-forwarder     pires/docker-logstash-forwarder     172.17.8.102/       component=logstash-forwarder                 Running
 ```
 
 As you can assert, the cluster is up and running. Easy, wasn't it?
@@ -95,12 +119,6 @@ You should see something like this:
 ```
 NAME                LABELS              SELECTOR                              IP                  PORT
 kibana              <none>              component=elasticsearch,role=kibana   10.244.63.95        80
-```
-
-From inside one of the containers running in your cluster:
-
-```
-curl http://pires:kibanarulz@10.244.63.95
 ```
 
 This should be what you see:

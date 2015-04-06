@@ -19,14 +19,12 @@
               "image":"pires/elasticsearch:lb",
               "ports":[
                 {
+                  "name":"http",
+                  "containerPort":9200
+                },
+                {
                   "name":"transport",
                   "containerPort":9300
-                }
-              ],
-              "volumeMounts":[
-                {
-                  "name":"storage",
-                  "mountPath":"/data"
                 }
               ]
             },
@@ -48,12 +46,6 @@
             }
           ],
           "volumes":[
-            {
-              "name":"storage",
-              "source":{
-                "emptyDir":{ }
-              }
-            },
             {
               "name":"certs",
               "source":{
