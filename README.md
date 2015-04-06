@@ -2,29 +2,29 @@
 **ELK** (**Elasticsearch** + **Logstash** + **Kibana**) cluster on top of **Kubernetes** made easy.
 
 Here you will find:
-* Kubernetes pod descriptor that joins Elasticsearch load-balancer container with Logstash container (for ```localhost``` communication)
-* Kubernetes pod descriptor that joins Elasticsearch load-balancer container with Kibana container (for ```localhost``` communication)
+* Kubernetes pod descriptor that joins Elasticsearch load-balancer container with Logstash container (for `localhost` communication)
+* Kubernetes pod descriptor that joins Elasticsearch load-balancer container with Kibana container (for `localhost` communication)
 * Kubernetes service descriptor that publishes Logstash listening for Lumberjack protocol
 * Kubernetes service descriptor that publishes Kibana webpage
 
-**Attention:** 
-* If you're looking for details on how ```pires/elasticsearch``` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
-* If you're looking for details on how ```pires/docker-logstash``` image is built, take a look at [my Logstash repository](https://github.com/pires/docker-logstash).
-* If you're looking for details on how ```pires/docker-logstash-forwarder``` image is built, take a look at [my docker-logstash-forwarder repository](https://github.com/pires/docker-logstash-forwarder).
+**Attention:**
+* If you're looking for details on how `pires/elasticsearch` images are built, take a look at [my Elasticsearch repository](https://github.com/pires/kubernetes-elasticsearch-cluster).
+* If you're looking for details on how `pires/docker-logstash` image is built, take a look at [my Logstash repository](https://github.com/pires/docker-logstash).
+* If you're looking for details on how `pires/docker-logstash-forwarder` image is built, take a look at [my docker-logstash-forwarder repository](https://github.com/pires/docker-logstash-forwarder).
 
 ## Pre-requisites
 
 * Kubernetes cluster (tested with 2 minions [Vagrant + CoreOS](https://github.com/pires/kubernetes-vagrant-coreos-cluster))
-* ```kubectl``` configured to access your cluster master API Server
-* Elasticsearch cluster deployed - you can skip deploying ```load-balancers```provisioning, since those will be paired with Logstash and Kibana containers, and automatically join the cluster you've assembled with [my Elasticsearch cluster instructions](https://github.com/pires/kubernetes-elasticsearch-cluster)).
+* `kubectl` configured to access your cluster master API Server
+* Elasticsearch cluster deployed - you can skip deploying `load-balancers`provisioning, since those will be paired with Logstash and Kibana containers, and automatically join the cluster you've assembled with [my Elasticsearch cluster instructions](https://github.com/pires/kubernetes-elasticsearch-cluster)).
 
 ## Deploy
 
 ### SSL certificates
 
-Be sure to provide valid SSL certificates for ```logstash``` and ```logstash-forwarder```, by changing the ```hostDir``` path to whatever folder you will be storing the certificates.
+Be sure to provide valid SSL certificates for `logstash` and `logstash-forwarder`, by changing the `hostDir` path to whatever folder you will be storing the certificates.
 
-Changes must be performed in ```logstash-controller.json``` and ```logstash-forwarder-controller.json```, **at least** for the `certs` volume. Look for
+Changes must be performed in `logstash-controller.json` and `logstash-forwarder-controller.json`, **at least** for the `certs` volume. Look for
 ```json
 "volumes":[
 {
@@ -40,6 +40,15 @@ Changes must be performed in ```logstash-controller.json``` and ```logstash-forw
 
 If you want to change `logstash` and `logstash-forwarder` configuration, be sure to add to each `replication-controller`
 ```json
+"volumeMounts":[
+{
+  "name":"config",
+  "mountPath":"/logstash-forwarder/config"
+}
+]
+
+(...)
+
 "volumes":[
 {
   "name":"config",
@@ -50,17 +59,6 @@ If you want to change `logstash` and `logstash-forwarder` configuration, be sure
   }
 }
 ]
-
-(...)
-
-{
-  "name":"config",
-  "source":{
-    "hostDir":{
-      "path": "/path/to/config"
-    }
-  }
-}
 ```
 
 and change accordingly.
@@ -75,7 +73,7 @@ kubectl create -f kibana-controller.json
 
 ## Validate
 
-I leave to you the steps to validate the provisioned pods, but first step is to wait for containers to be in ```RUNNING``` state and check the logs of the master (as in Elasticsearch):
+I leave to you the steps to validate the provisioned pods, but first step is to wait for containers to be in `RUNNING` state and check the logs of the master (as in Elasticsearch):
 
 ```
 kubectl get pods
@@ -108,7 +106,7 @@ kubectl resize --replicas=2 replicationcontrollers kibana
 
 ## Access the service
 
-*Don't forget* that services in Kubernetes are only acessible from containers in the cluster. For different behavior you should configure ```publicIps``` or ```createExternalLoadBalancer```, in your service. That's out of scope of this document, for now.
+*Don't forget* that services in Kubernetes are only acessible from containers in the cluster. For different behavior you should configure `publicIps` or `createExternalLoadBalancer`, in your service. That's out of scope of this document, for now.
 
 ```
 kubectl get service kibana
