@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: logstash
+  namespace: default
+  labels:
+    component: elasticsearch
+    role: logstash
+spec:
+  replicas: 1
+  selector:
+    component: elasticsearch
+    role: logstash
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: logstash
+    spec:
+      serviceAccount: elasticsearch
+      containers:
+      - name: elasticsearch-lb
+        image: pires/elasticsearch:lb
+        env:
+        - name: KUBERNETES_TRUST_CERT
+          value: "true"
+        ports:
+        - containerPort: 9200
+          name: http
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data
+          name: storage
+      - name: logstash
+        image: pires/logstash
+        env:
+        - name: KUBERNETES_TRUST_CERT
+          value: "true"
+        ports:
+        - containerPort: 5043
+          name: lumberjack
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /certs
+          name: certs
+      volumes:
+      - name: storage
+        source:
+          emptyDir: {}
+      - name: certs
+        source:
+          hostPath:
+            path: /tmp
