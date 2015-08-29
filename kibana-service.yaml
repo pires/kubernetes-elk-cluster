@@ -4,11 +4,11 @@ metadata:
   name: kibana
   namespace: default
   labels:
-    component: elasticsearch
+    component: elk
     role: kibana
 spec:
   selector:
-    component: elasticsearch
+    component: elk
     role: kibana
   ports:
   - name: http

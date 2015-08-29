@@ -4,36 +4,21 @@ metadata:
   name: logstash
   namespace: default
   labels:
-    component: elasticsearch
+    component: elk
     role: logstash
 spec:
   replicas: 1
   selector:
-    component: elasticsearch
+    component: elk
     role: logstash
   template:
     metadata:
       labels:
-        component: elasticsearch
+        component: elk
         role: logstash
     spec:
-      serviceAccount: elasticsearch
+      serviceAccount: elk
       containers:
-      - name: elasticsearch-lb
-        image: pires/elasticsearch:lb
-        env:
-        - name: KUBERNETES_TRUST_CERT
-          value: "true"
-        ports:
-        - containerPort: 9200
-          name: http
-          protocol: TCP
-        - containerPort: 9300
-          name: transport
-          protocol: TCP
-        volumeMounts:
-        - mountPath: /data
-          name: storage
       - name: logstash
         image: pires/logstash
         env:

@@ -4,26 +4,26 @@ metadata:
   name: kibana
   namespace: default
   labels:
-    component: elasticsearch
+    component: elk
     role: kibana
 spec:
   replicas: 1
   selector:
-    component: elasticsearch
+    component: elk
     role: kibana
   template:
     metadata:
       labels:
-        component: elasticsearch
+        component: elk
         role: kibana
     spec:
-      serviceAccount: elasticsearch
+      serviceAccount: elk
       containers:
       - name: kibana
-        image: bobrik/kibana
+        image: quay.io/pires/docker-kibana:4.1.1
         env:
-        -name: KIBANA_ES_URL
-         value: "http://elasticsearch:9200"
+        - name: KIBANA_ES_URL
+          value: "http://elasticsearch.default.svc.cluster.local:9200"
         - name: KUBERNETES_TRUST_CERT
           value: "true"
         ports:
