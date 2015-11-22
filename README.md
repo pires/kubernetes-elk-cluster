@@ -9,7 +9,7 @@ Here you will find:
 
 ## Pre-requisites
 
-* Kubernetes cluster (tested with 4 nodes [Vagrant + CoreOS](https://github.com/pires/kubernetes-vagrant-coreos-cluster))
+* Kubernetes 1.1.x cluster (tested with 4 nodes [Vagrant + CoreOS](https://github.com/pires/kubernetes-vagrant-coreos-cluster))
 * `kubectl` configured to access your cluster master API Server
 * Elasticsearch cluster deployed - you can skip deploying `client-nodes` provisioning, since those will be paired with Logstash and Kibana containers, and automatically join the cluster you've assembled with [my Elasticsearch cluster instructions](https://github.com/pires/kubernetes-elasticsearch-cluster)).
 

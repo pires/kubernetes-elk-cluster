@@ -32,10 +32,9 @@ spec:
         - mountPath: /certs
           name: certs
       volumes:
-      - name: storage
-        source:
-          emptyDir: {}
-      - name: certs
-        source:
-          hostPath:
-            path: /tmp
+      - emptyDir:
+          medium: ""
+        name: "storage"
+      - hostPath:
+          path: "/tmp"
+        name: "certs"
