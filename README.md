@@ -1,3 +1,11 @@
+# This project is no longer maintained
+
+As of November 7th, 2018, I've decided to end my commitment to maintaining this repo and related.
+
+It's been more than 3 years since I last used ELK, so I no longer have the motivation it takes to maintain and evolve this project. Also, other projects need all the attention I can give.
+
+It was a great run, **thank you all**.
+
 # kubernetes-elk-cluster
 **ELK** (**Elasticsearch** + **Logstash** + **Kibana**) cluster on top of **Kubernetes**, made easy.
 
